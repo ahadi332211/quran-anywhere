@@ -23,7 +23,6 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          # ⚠️ No Gradle cache here (project not created yet)
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -38,10 +37,11 @@ jobs:
       - name: Install Bubblewrap CLI
         run: npm i -g @bubblewrap/cli
 
-      - name: Create TWA project from your live PWA
+      - name: Create TWA project from your live PWA (non-interactive)
         run: |
           mkdir twa && cd twa
-          bubblewrap init \
+          # Feed "n" to every interactive question so the step never hangs.
+          yes n | bubblewrap init \
             --manifest=https://ahadi332211.github.io/quran-anywhere/manifest.json \
             --skipPwaValidation \
             --packageId=com.ahadi.qurananywhere \
@@ -55,6 +55,7 @@ jobs:
       - name: Build unsigned AAB/APK (release)
         working-directory: ./twa
         run: |
+          chmod +x ./gradlew
           ./gradlew --version
           ./gradlew :app:bundleRelease :app:assembleRelease --stacktrace --no-daemon
 
