@@ -1,15 +1,45 @@
 {
+  "id": "quran-anywhere",
   "name": "پښتو قران",
   "short_name": "Quran",
+  "description": "Read the Quran offline with Pashto, Dari, and English translations, plus beautiful audio playback.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "orientation": "portrait",
   "background_color": "#0a0f18",
   "theme_color": "#0a0f18",
   "lang": "ps",
   "dir": "rtl",
+  "categories": ["books", "education", "lifestyle", "productivity"],
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ]
+    {
+      "src": "https://ahadi332211.github.io/quran-anywhere/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://ahadi332211.github.io/quran-anywhere/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open Reader",
+      "short_name": "Reader",
+      "url": "./#/quran",
+      "description": "Go to the Quran reader"
+    },
+    {
+      "name": "Open Audio",
+      "short_name": "Audio",
+      "url": "./#/audio",
+      "description": "Go to the audio section"
+    }
+  ],
+  "prefer_related_applications": false
 }
