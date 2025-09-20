@@ -1,1 +1,57 @@
+name: Build Android APK/AAB in cloud
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Setup Java (Android/Gradle)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Bubblewrap CLI
+        run: npm i -g @bubblewrap/cli
+
+      - name: Create TWA project from your live PWA
+        run: |
+          mkdir twa && cd twa
+          npx bubblewrap init \
+            --manifest=https://ahadi332211.github.io/quran-anywhere/manifest.json \
+            --skipPwaValidation \
+            --packageId=com.ahadi.qurananywhere \
+            --name="Quran Anywhere" \
+            --launcherName="Quran" \
+            --appVersionName=1.0.0 \
+            --appVersionCode=1
+
+      - name: Build unsigned AAB/APK
+        working-directory: ./twa
+        run: |
+          npx bubblewrap build --skipSigning
+
+      - name: Upload artifacts (AAB/APK)
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build
+          path: |
+            twa/app/build/outputs/bundle/release/*.aab
+            twa/app/build/outputs/apk/release/*.apk
 
