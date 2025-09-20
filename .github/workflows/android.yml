@@ -23,16 +23,17 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: 'gradle'
+          # ⚠️ No Gradle cache here (project not created yet)
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # >>> Critical: install required SDK platform + build-tools and accept licenses
-      - name: Install Android platform & build-tools
+      - name: Accept Android licenses & install platforms/tools
         run: |
           yes | sdkmanager --licenses
-          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          sdkmanager "platform-tools" \
+                     "platforms;android-33" "build-tools;33.0.2" \
+                     "platforms;android-34" "build-tools;34.0.0"
 
       - name: Install Bubblewrap CLI
         run: npm i -g @bubblewrap/cli
@@ -48,8 +49,8 @@ jobs:
             --launcherName="Quran" \
             --appVersionName=1.0.0 \
             --appVersionCode=1
-          # print Gradle/Android plugin versions for easier debugging
-          grep -R "com.android.tools.build:gradle" -n || true
+          echo "Created TWA project:"
+          ls -la
 
       - name: Build unsigned AAB/APK (release)
         working-directory: ./twa
