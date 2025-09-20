@@ -23,9 +23,16 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: 'gradle'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+
+      # >>> Critical: install required SDK platform + build-tools and accept licenses
+      - name: Install Android platform & build-tools
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Install Bubblewrap CLI
         run: npm i -g @bubblewrap/cli
@@ -33,7 +40,7 @@ jobs:
       - name: Create TWA project from your live PWA
         run: |
           mkdir twa && cd twa
-          npx bubblewrap init \
+          bubblewrap init \
             --manifest=https://ahadi332211.github.io/quran-anywhere/manifest.json \
             --skipPwaValidation \
             --packageId=com.ahadi.qurananywhere \
@@ -41,11 +48,14 @@ jobs:
             --launcherName="Quran" \
             --appVersionName=1.0.0 \
             --appVersionCode=1
+          # print Gradle/Android plugin versions for easier debugging
+          grep -R "com.android.tools.build:gradle" -n || true
 
-      - name: Build unsigned AAB/APK
+      - name: Build unsigned AAB/APK (release)
         working-directory: ./twa
         run: |
-          npx bubblewrap build --skipSigning
+          ./gradlew --version
+          ./gradlew :app:bundleRelease :app:assembleRelease --stacktrace --no-daemon
 
       - name: Upload artifacts (AAB/APK)
         uses: actions/upload-artifact@v4
@@ -54,4 +64,3 @@ jobs:
           path: |
             twa/app/build/outputs/bundle/release/*.aab
             twa/app/build/outputs/apk/release/*.apk
-
