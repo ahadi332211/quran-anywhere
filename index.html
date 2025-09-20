@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ps" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="color-scheme" content="dark light">
+  <title>پښتو قران ترجمه</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%230a0f18'/%3E%3Ccircle cx='64' cy='64' r='46' fill='%2300f0ff' opacity='.18'/%3E%3Cpath d='M64 30c-11 9-24 11-24 24 0 13 13 19 24 28 11-9 24-15 24-28 0-13-13-15-24-24Z' fill='%23aaff00'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <!-- Inline icons -->
+  <svg style="display:none" aria-hidden="true">
+    <symbol id="ic-quran" viewBox="0 0 24 24">
+      <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H19a2 2 0 0 1 2 2v14.5A3.5 3.5 0 0 1 17.5 22H6.5A2.5 2.5 0 0 1 4 19.5V4.5Z" fill="currentColor" opacity=".15"/>
+      <path d="M6.5 4H19v12.5A1.5 1.5 0 0 1 17.5 18H6.5c-.28 0-.5.22-.5.5s.22.5.5.5H17" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <path d="M12 6c2.761 0 5 1.79 5 4s-2.239 4-5 4-5-1.79-5-4 2.239-4 5-4Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <circle cx="12" cy="9.5" r="1.5" fill="currentColor"/>
+    </symbol>
+    <symbol id="ic-audio" viewBox="0 0 24 24">
+      <path d="M5 10h4l3-3v10l-3-3H5z" fill="currentColor"/>
+      <circle cx="18" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <path d="M18 8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ic-gear" viewBox="0 0 24 24">
+      <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <path d="M4 12h2M18 12h2M12 4v2M12 18v2M6 6l1.5 1.5M16.5 16.5L18 18M18 6l-1.5 1.5M6 18l1.5-1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ic-bookmark" viewBox="0 0 24 24"><path d="M7 3h10a1 1 0 0 1 1 1v17l-6-3-6 3V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.5" fill="none"/></symbol>
+    <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="ic-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
+    <symbol id="ic-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></symbol>
+    <symbol id="ic-ff" viewBox="0 0 24 24"><path d="M4 6l8 6-8 6V6zm8 0l8 6-8 6V6z" fill="currentColor"/></symbol>
+    <symbol id="ic-rw" viewBox="0 0 24 24"><path d="M20 6l-8 6 8 6V6zM12 6L4 12l8 6V6z" fill="currentColor"/></symbol>
+    <symbol id="ic-repeat" viewBox="0 0 24 24"><path d="M17 1l4 4-4 4V7H7a4 4 0 0 0-4 4v0" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M7 23L3 19l4-4v2h10a4 4 0 0 0 4-4v0" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="ic-volume" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4H4z" fill="currentColor"/><path d="M16 9a3 3 0 0 1 0 6M18 7a6 6 0 0 1 0 10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <div id="app">
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="iconbtn" id="btnBack" aria-label="Back" hidden><svg><use href="#ic-back"/></svg></button>
+      <h1 class="brand" id="txtBrand">پښتو دری قران</h1>
+      <div class="top-actions">
+        <button class="iconbtn" id="btnSearch" aria-label="Search"><svg><use href="#ic-search"/></svg></button>
+        <button class="iconbtn" id="btnBookmarks" aria-label="Bookmarks"><svg><use href="#ic-bookmark"/></svg></button>
+        <button class="iconbtn" id="btnSettings" aria-label="Settings"><svg><use href="#ic-gear"/></svg></button>
+      </div>
+    </header>
+
+    <!-- Landing -->
+    <main class="view visible" id="view-landing">
+      <section class="hero">
+        <h2 class="hero-title">Choose a section</h2>
+        <div class="hero-grid">
+          <button class="hero-card neon" id="openQuran">
+            <div class="halo"></div>
+            <div class="hero-icon"><svg><use href="#ic-quran"/></svg></div>
+            <div class="hero-text"><h3>Quran</h3><p>Surahs • Juz • Reader</p></div>
+          </button>
+          <button class="hero-card neon" id="openAudio">
+            <div class="halo alt"></div>
+            <div class="hero-icon"><svg><use href="#ic-audio"/></svg></div>
+            <div class="hero-text"><h3>Audio</h3><p>Arabic • Pashto • Dari</p></div>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Quran home -->
+    <main class="view" id="view-home">
+      <nav class="home-tabs" id="homeTabs">
+        <button class="tab active" data-tab="surahs" id="tabSurahs">Surahs</button>
+        <button class="tab" data-tab="juz" id="tabJuz">Juz</button>
+      </nav>
+      <section id="home-surahs" class="grid"></section>
+      <section id="home-juz" class="grid is-hidden"></section>
+    </main>
+
+    <!-- Reader -->
+    <main class="view" id="view-reader">
+      <div class="reader-head stick" id="readerHead">
+        <div class="reader-title">
+          <h2 id="readerTitle"></h2>
+          <div id="readerSub" class="subtle"></div>
+        </div>
+        <div class="reader-quick">
+          <button class="chip" id="tgPs" title="Toggle Pashto">PS</button>
+          <button class="chip" id="tgFa" title="Toggle Dari">FA</button>
+          <button class="chip" id="tgEn" title="Toggle English">EN</button>
+        </div>
+      </div>
+      <div id="ayahList" class="ayah-list"></div>
+    </main>
+
+    <!-- Audio -->
+    <main class="view" id="view-audio">
+      <div class="seg-tabs">
+        <button class="seg active" data-audiotab="arabic" id="tabArabic">Arabic</button>
+        <button class="seg" data-audiotab="pashto" id="tabPashto">Pashto</button>
+        <button class="seg" data-audiotab="dari"   id="tabDari">Dari</button>
+      </div>
+      <div id="audioLists">
+        <section id="listArabic" class="audio-list"></section>
+        <section id="listPashto" class="audio-list is-hidden"></section>
+        <section id="listDari"   class="audio-list is-hidden"></section>
+      </div>
+    </main>
+
+    <!-- Bookmarks -->
+    <main class="view" id="view-bookmarks">
+      <div class="row between">
+        <h2 class="pad">Bookmarks</h2>
+        <button id="btnClearBookmarks" class="pill danger">Clear</button>
+      </div>
+      <section id="bookmarkList" class="list"></section>
+    </main>
+
+    <!-- Mini Player -->
+    <footer class="mini-player is-hidden" id="miniPlayer">
+      <div class="mini-left">
+        <button class="iconbtn ghost" id="btnPrev15" title="-15s"><svg><use href="#ic-rw"/></svg></button>
+        <button class="iconbtn primary" id="btnPlayPause" title="Play/Pause"><svg><use id="ppIcon" href="#ic-play"/></svg></button>
+        <button class="iconbtn ghost" id="btnNext15" title="+15s"><svg><use href="#ic-ff"/></svg></button>
+      </div>
+      <div class="mini-center">
+        <div class="mini-title" id="miniTitle">—</div>
+        <div class="mini-seek" id="miniSeek">
+          <span id="miniCur">0:00</span>
+          <input type="range" id="miniRange" min="0" max="100" step="0.1" value="0"/>
+          <span id="miniDur">0:00</span>
+        </div>
+      </div>
+      <div class="mini-right">
+        <select id="miniRate" class="pill small" title="Speed">
+          <option value="0.75">0.75×</option>
+          <option value="1" selected>1×</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option>
+          <option value="2">2×</option>
+        </select>
+        <label class="vol" title="Volume">
+          <svg><use href="#ic-volume"/></svg>
+          <input type="range" id="miniVol" min="0" max="1" step="0.01" value="1"/>
+        </label>
+        <button class="iconbtn ghost" id="btnRepeat" title="Repeat"><svg><use href="#ic-repeat"/></svg></button>
+        <button class="pill small" id="btnShareAudio">Share</button>
+      </div>
+      <audio id="miniAudio" preload="auto" playsinline></audio>
+    </footer>
+
+    <!-- Search Drawer -->
+    <aside class="drawer bottom" id="searchDrawer" aria-hidden="true">
+      <div class="drawer-head">
+        <h3>🔎 Search</h3>
+        <button class="iconbtn" id="btnCloseSearch" aria-label="Close">✖️</button>
+      </div>
+      <div class="pad"><input id="searchInput" type="search" class="searchbar" placeholder="Search…" /></div>
+      <section id="searchResults" class="list"></section>
+    </aside>
+
+    <!-- Settings Drawer -->
+    <aside class="drawer right" id="settingsDrawer" aria-hidden="true">
+      <div class="drawer-head">
+        <h3>Settings</h3>
+        <button class="iconbtn" id="btnCloseSettings" aria-label="Close">✖️</button>
+      </div>
+      <div class="drawer-body">
+        <section class="card">
+          <h4>UI Language</h4>
+          <div class="seg-tabs tight" id="langSwitch">
+            <button class="seg active" data-lang="ps">پښتو</button>
+            <button class="seg" data-lang="fa">دری</button>
+            <button class="seg" data-lang="en">English</button>
+          </div>
+        </section>
+        <section class="card">
+          <h4>Theme</h4>
+          <div class="theme-grid" id="themeGrid">
+            <button class="themechip" data-theme="light"><div class="swatch light"></div><span>Light</span></button>
+            <button class="themechip" data-theme="dark"><div class="swatch dark"></div><span>Dark</span></button>
+            <button class="themechip" data-theme="sepia"><div class="swatch sepia"></div><span>Sepia</span></button>
+            <button class="themechip" data-theme="night"><div class="swatch night"></div><span>Night</span></button>
+          </div>
+        </section>
+        <section class="card">
+          <h4>Font sizes</h4>
+          <label class="slider-row"><span>Arabic</span><input type="range" id="sliderArabic" min="18" max="40" step="1" /><output id="outArabic">28</output></label>
+          <label class="slider-row"><span>Translations</span><input type="range" id="sliderTrans" min="12" max="24" step="1" /><output id="outTrans">16</output></label>
+        </section>
+        <section class="card">
+          <h4>Translations</h4>
+          <label class="toggle"><input type="checkbox" id="chkPs" checked /><span></span><b>Pashto</b></label>
+          <label class="toggle"><input type="checkbox" id="chkFa" checked /><span></span><b>Dari</b></label>
+          <label class="toggle"><input type="checkbox" id="chkEn" checked /><span></span><b>English</b></label>
+        </section>
+        <section class="card">
+          <h4>Reset</h4>
+          <p class="subtle">Restore defaults (clears bookmarks, progress, audio state, and settings).</p>
+          <button class="pill danger" id="btnResetAll">Reset all settings</button>
+        </section>
+        <section class="card">
+          <h4>Contact</h4>
+          <a class="pill" href="mailto:ahadi.edu@gmail.com">Email: ahadi.edu@gmail.com</a>
+        </section>
+      </div>
+    </aside>
+  </div>
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
