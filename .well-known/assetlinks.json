@@ -2,7 +2,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "io.github.ahadi332211.twa",
-        "sha256_cert_fingerprints": ["56:84:66:2C:57:D8:31:6D:1D:95:0A:3C:AE:AD:06:5A:B8:62:62:77:6E:6F:F2:9A:8B:36:C7:A8:CD:EF:E6:CA"]
+        "package_name": "com.ahadi.quranpashto",
+        "sha256_cert_fingerprints": ["43:7E:83:DA:20:AD:D8:86:D5:04:C3:37:31:F6:EB:FA:28:07:56:FA:ED:AF:D0:B5:22:3F:9D:8A:A2:4E:C7:C6"]
       }
     }]
